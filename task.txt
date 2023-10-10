@@ -1,0 +1,46 @@
+
+
+WEB APLIKACIJA - praćenje natjecanja koja se odvijaju po jednokružnom sustavu natjecanja 
+
+
+PRIJAVA
+- Korištenjem protokola OpenId Connect (OIDC) i servisa Auth0. 
+- Korisnike na servisu Auth0 možete dodati kroz opciju User management/Users na Auth0. 
+- Za potrebe testiranja aplikacije pripremiti jedan račun ili na Auth0 omogućiti prijavu preko Googlea.
+
+AUTH0
+- https://auth0.com/
+- OAuth2 + OpenID Connect
+- auth prezentacija na ferwebu
+
+
+PRIJAVLJENI KORISNIK
+- Definirati natjecanje
+- Unos/izmjena rezultata u natjecanje koje je stvoria 
+	(nakon unosa izračunava se novi poredak)
+- Vidjeti poveznicu za dijelit natjecanje s ostalim korisnicima
+
+DEFINIRANJE NATJECANJA
+- Na početnoj stranici unese:
+	- naziv natjecanja
+	- popis natjecatelja (natjecatelji su odvojeni točkom zarez ili novim redom)
+	- odabere sustav bodovanja u obliku pobjeda/remi/poraz, npr. 3/1/0 (nogomet), 1/0,5/0 (šah), 2/0/1 (košarka) i slično.
+
+GENERIRANJE NATJECANJA 
+- U slučaju da su podaci valjani (?)
+	- aplikacija treba generirati cjelokupni raspored po kolima
+	- i omogućiti unos rezultata korisniku koji je stvorio natjecanje (ali samo njemu, ne i ostalim korisnicima).
+	- Napomena: Korisnik ne unosi raspored (raspored generira aplikacija), 
+	  već samo unosi/mijenja rezultate nakon čega aplikacija 
+	  ažurira poredak natjecatelja temeljem dotadašnjih rezultata.
+
+SUSTAV "SVATKO SA SVAKIM"
+- https://hrcak.srce.hr/file/350365 
+- Ne morate implementirati algoritam, već možete koristiti unaprijed pripremljene rasporede za podržane brojeve natjecatelja. 
+- Broj natjecatelja ograničiti na 4 do 8.
+
+STRANICA NATJECANJA
+- Stranica s rezultatima i trenutnim poretkom nekog natjecanja mora biti javno dostupna 
+  preko posebno generirane poveznice za to natjecanje. 
+- Poveznica mora biti vidljiva korisniku koji je stvorio natjecanje kako bi je mogao podijeliti s natjecateljima.
+

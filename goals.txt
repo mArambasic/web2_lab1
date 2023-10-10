@@ -1,0 +1,13 @@
+ISPORUCITI
+- adresu javno dostupnog git repozitorija s izvornim kodom aplikacije
+- adresu aplikacije
+- adresu barem jednog stvorenog natjecanja s unesenim rezultatima 
+  za prva 2 kola i generiranim rasporednom preostalih
+- testni korisnički račun s lozinkom s kojima se aplikacija može isprobati 
+  ili na Auth0 omogućiti prijavu preko Googlea
+
+IMPLEMENTIRATI
+- prijava korisnika
+- javno dostupni prikaz stanja natjecanja temeljem poveznice
+- stvaranje novog natjecanja
+- unos i izmjena rezultata, uz izračun novog poretka nakon unosa/izmjene
