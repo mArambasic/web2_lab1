@@ -1,38 +1,18 @@
 {
-  "name": "front",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
+  "name": "auth0-express-webapp-sample",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "build": "npm run clean; tsc; npm run copy-views; npm run copy-views",
+    "clean": "rm -rf dist",
+    "copy-views": "cp -r src/views/ dist/views/",
+    "start": "node dist/08-webapp.js"
+    },
+  "dependencies": {
+    "debug": "~3.2.7",
+    "dotenv": "^6.2.0",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-openid-connect": "^2.17.0",
+    "http-errors": "~1.8.1",
+    "morgan": "~1.10.0"
   }
 }
