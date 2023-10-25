@@ -42,7 +42,7 @@ app.use(function (req, res, next) {
 app.use('/', router);
 
 if (externalUrl) {
-  const hostname = '0.0.0.0'; //ne 127.0.0.1
+  const hostname = process.env.HOST; //ne 127.0.0.1
   app.listen(port, hostname, () => {
     console.log(`Server locally running at http://${hostname}:${port}/ and from
     outside on ${externalUrl}`);
