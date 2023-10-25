@@ -4,7 +4,7 @@
     "build": "npm run clean; tsc; npm run copy-views; npm run copy-views",
     "clean": "rm -rf dist",
     "copy-views": "cp -r views dist/",
-    "start": "node dist/index.ejs"
+    "start": "node server.js"
     },
   "dependencies": {
     "debug": "~3.2.7",
