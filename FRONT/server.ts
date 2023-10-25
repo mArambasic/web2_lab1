@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 const externalUrl = process.env.RENDER_EXTERNAL_URL;
-const port = process.env.PORT || 8080;
+const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080;
 
 const config = {
   authRequired: false,
@@ -78,12 +78,6 @@ app.post('/newMatch', (req, res) => {
   const userInput = req.body.userInput;
   res.send(`You entered: ${userInput}`);
 });
-
-
-http.createServer(app)
-  .listen(port, () => {
-    console.log(`Listening on ${config.baseURL}`);
-  });
 
   // vJ*6415nQyUf test user password
   // testuser@test.com
