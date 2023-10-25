@@ -65,9 +65,5 @@ app.post('/newMatch', function (req, res) {
     var userInput = req.body.userInput;
     res.send("You entered: ".concat(userInput));
 });
-http.createServer(app)
-    .listen(port, function () {
-    console.log("Listening on ".concat(config.baseURL));
-});
 // vJ*6415nQyUf test user password
 // testuser@test.com
