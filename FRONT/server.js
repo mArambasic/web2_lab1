@@ -55,11 +55,10 @@ app.use(function (req, res, next) {
 // Error handlers
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    // res.render('error', {
-    //   message: err.message + ` aaaa ` + err.message,
-    //   error: process.env.NODE_ENV !== 'production' ? err : {}
-    // });
-    res.render('index');
+    res.render('index', {
+        title: 'Competiton maker',
+        isAuthenticated: req.oidc.isAuthenticated()
+    });
 });
 app.post('/newMatch', function (req, res) {
     var userInput = req.body.userInput;
