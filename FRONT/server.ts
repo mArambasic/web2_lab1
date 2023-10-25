@@ -20,8 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 const externalUrl = process.env.RENDER_EXTERNAL_URL;
-const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4092;
-
+const port = 4080
 
 const config = {
   authRequired: false,
