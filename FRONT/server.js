@@ -12,7 +12,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 var externalUrl = process.env.RENDER_EXTERNAL_URL;
 var port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4092;
@@ -32,7 +31,8 @@ app.use(function (req, res, next) {
 });
 app.use('/', router);
 if (externalUrl) {
-    var hostname_1 = '0.0.0.0'; //ne 127.0.0.1
+    var hostname_1 = process.env.HOST; //ne 127.0.0.1
+    console.log(hostname_1 + " " + port + " " + externalUrl);
     app.listen(port, hostname_1, function () {
         console.log("Server locally running at http://".concat(hostname_1, ":").concat(port, "/ and from\n    outside on ").concat(externalUrl));
     });
