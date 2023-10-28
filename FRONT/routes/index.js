@@ -15,10 +15,10 @@ router.get('/profile', requiresAuth(), function (req, res, next) {
   });
 });
 
-router.get('/matches', requiresAuth(), function (req, res, next) {
-  res.render('matches', {
+router.get('/competitions', requiresAuth(), function (req, res, next) {
+  res.render('competitions', {
     userProfile: JSON.stringify(req.oidc.user, null, 2),
-    title: 'Matches'
+    title: 'Competitions'
   });
 });
 

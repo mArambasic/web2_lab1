@@ -1,21 +1,75 @@
 <%- include('partials/header') -%>
+<script>
+    const axios = require('axios');
+
+    function validateForm() {
+        var inputField = document.getElementById("competitors");
+
+        if(inputField === null)  {
+            alert(inputField + "field");
+            return false; 
+        } 
+
+        var inputValue = inputField.value;
+        if (inputValue === null) {
+            alert(inputValue + "value");
+            return false; 
+        }
+        
+        submitNewMatch()
+        return true;
+    }
+
+    function submitNewMatch() {
+        var competitionName = document.getElementById("competitionName");
+        var competitors = document.getElementById("competitors");
+        var pointDistribution = document.getElementById("pointDistribution");
+
+        const newMatchData = {
+            competitionName,
+            competitors,
+            pointDistribution
+        };
+
+        alert(newMatchData + "tu sam");
+        const res = axios.post(
+            apiBaseUrl + "/newMatch",
+            newMatchData
+        )
+        if(res.status == 200)alert("aa new match");
+        else alert("nope nisi nist");
+    }
+
+  </script>
+
 
 <div id="root">
-    <h1 class="text-4xl">Hello World</h1>
-
     <% if (locals.isAuthenticated) { %>
-        <p>You are logged in. <a href="/matches" class="underline">View your matches</a>. or enter new ones</p>
-        <form action="/newMatch" method="post">
-            <label for="userInput">Enter Text:</label>
-            <input type="text" id="userInput" name="userInput">
-            <label for="userInput">Enter Text:</label>
-            <input type="text" id="userInput" name="userInput">
-            <label for="userInput">Enter Text:</label>
-            <input type="text" id="userInput" name="userInput">
-            <button type="submit">Submit</button>
+        <p> <a href="/competitions" class="underline">View your competitions</a> or enter a new one!</p>
+        
+        <h1 class="text-4xl">Enter new competition</h1>
+
+        <form action="/newCompetition" method="post" onsubmit="return validateForm()">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" id = "competitionName" name="competitionName" maxlength="50"></td>
+                </tr>
+                <tr>
+                    <td>Competitors:</td>
+                    <td><input type="text" id = "competitors" name="competitors"></td>
+                </tr>
+                <tr>
+                    <td>Point distribution:</td>
+                    <td><input type="text" id = "pointDistribution" name="pointDistribution" ></td>
+                    </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Submit" ></td>
+                </tr>
+            </table>
         </form>
     <% } else { %>
-        <p>You are not logged in. Log in to enter your match. <a href="/login" class="underline">Login</a>.</p>
+        <p>You are not logged in. Log in to view previously created competitions or enter a new one. <a href="/login" class="underline">Login</a>.</p>
     <% } %>
     </div>
 <%- include('partials/footer') -%>

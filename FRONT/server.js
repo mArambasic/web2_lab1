@@ -7,6 +7,7 @@ var logger = require('morgan');
 var path = require('path');
 var router = require('./routes/index');
 var auth = require('express-openid-connect').auth;
+var createProxyMiddleware = require("http-proxy-middleware").createProxyMiddleware;
 dotenv.load();
 var app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -15,6 +16,7 @@ app.use(logger('dev'));
 app.use(express.json());
 var externalUrl = process.env.RENDER_EXTERNAL_URL;
 var port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4092;
+var apiBaseURL = 'https://web2-lab1-back.onrender.com';
 var config = {
     authRequired: false,
     auth0Logout: true,
@@ -27,9 +29,14 @@ app.use(auth(config));
 // Middleware to make the `user` object available for all views
 app.use(function (req, res, next) {
     res.locals.user = req.oidc.user;
+    res.locals.apiBaseURL = apiBaseURL;
     next();
 });
 app.use('/', router);
+app.use("/api", createProxyMiddleware({
+    target: apiBaseURL,
+    changeOrigin: true,
+}));
 if (externalUrl) {
     var hostname_1 = process.env.HOST; //ne 127.0.0.1
     console.log(hostname_1 + " " + port + " " + externalUrl);
@@ -55,14 +62,14 @@ app.use(function (req, res, next) {
 // Error handlers
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    res.render('index', {
-        title: 'Competiton maker',
-        isAuthenticated: req.oidc.isAuthenticated()
-    });
+    res.redirect('/');
 });
-app.post('/newMatch', function (req, res) {
-    var userInput = req.body.userInput;
-    res.send("You entered: ".concat(userInput));
+app.post('/newCompetition', function (req, res) {
+    var competition = {
+        name: req.body.competitionName,
+        competitors: req.body.competitors,
+        pointDistribution: req.body.pointDistribution
+    };
 });
 // vJ*6415nQyUf test user password
 // testuser@test.com

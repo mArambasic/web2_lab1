@@ -3,8 +3,8 @@
 <h1 class="text-4xl">Hello World</h1>
 
 <% if (locals.isAuthenticated) { %>
-    <p>You are logged in. <a href="/matches" class="underline">View your matches</a>. or enter new ones</p>
-    <form action="/newMatch" method="post">
+    <p>You are logged in. <a href="/competitions" class="underline">View your competitions</a>. or enter new ones</p>
+    <form action="/newCompetition" method="post">
         <label for="userInput">Enter Text:</label>
         <input type="text" id="userInput" name="userInput">
         <button type="submit">Submit</button>
