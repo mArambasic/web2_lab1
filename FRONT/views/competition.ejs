@@ -31,8 +31,8 @@
 <script>
   const ScoringEnum = {
     NOT_FINISHED: "NOT_FINISHED",
-    WIN: "PLAYER 1 WIN",
-    LOSS: "PLAYER 2 WIN",
+    WIN: "WIN",
+    LOSS: "LOSS",
     DRAW: "DRAW",
   };
 
@@ -173,9 +173,6 @@
     resultSelectElements.forEach((select) => {
       const matchId = select.name.replace('result_', '');
       let result = select.value;
-
-      if(result === "PLAYER 1 WIN") result = "WIN";
-      else if(result === "PLAYER 2 WIN") result = "LOSS";
 
       console.log('RESULT:', result);
       console.log('MATCH ID:', matchId);
