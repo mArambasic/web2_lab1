@@ -183,6 +183,8 @@
       matchData.push({ matchId, result });
     });
 
+    console.log("Matchdata:", matchData);
+
 
     axios.post('https://web2-lab1-back.onrender.com/api/saveMatchChanges', {
        matches: matchData 
