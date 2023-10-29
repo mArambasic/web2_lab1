@@ -8,13 +8,6 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/profile', requiresAuth(), function (req, res, next) {
-  res.render('profile', {
-    userProfile: JSON.stringify(req.oidc.user, null, 2),
-    title: 'Profile page'
-  });
-});
-
 router.get('/competitions', requiresAuth(), function (req, res, next) {
   res.render('competitions', {
     userProfile: JSON.stringify(req.oidc.user, null, 2),
@@ -26,6 +19,7 @@ router.get('/competition/:link', function (req, res, next) {
   const link = req.params.link;
 
   res.render('competition', {
+    userProfile: JSON.stringify(req.oidc.user, null, 2),
     title: 'Competition',
     link: link
   });
