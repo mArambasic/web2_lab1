@@ -31,7 +31,7 @@
         .then((response) => {
           const competition = response.data;
 
-          if (competitions.length === 0) {
+          if (competition.length === 0) {
             window.location.href = "/";
             return;
           }
