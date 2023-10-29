@@ -20,6 +20,12 @@
     text-align: center;
     border-bottom: 1px solid #ddd;
   }
+
+  button {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+  }
 </style>
 
 <script>
@@ -112,13 +118,18 @@
           });
 
           roundsTable.appendChild(table);
-          
+
           if(userId === competitionUserId) {
+            const saveChangesDiv = document.createElement("div");
+            saveChangesDiv.className = "text-center";
+
             const saveChangesButton = document.createElement("button");
             saveChangesButton.id = "saveChangesButton";
             saveChangesButton.textContent = "Save Changes";
             saveChangesButton.onclick = saveChanges;
-            roundsTable.appendChild(saveChangesButton);
+
+            saveChangesDiv.appendChild(saveChangesButton);
+            roundsTable.appendChild(saveChangesDiv);
           }
 
           const scoringTable = document.getElementById("scoringTable");
