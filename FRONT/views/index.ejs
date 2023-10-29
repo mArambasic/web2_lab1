@@ -43,6 +43,10 @@
             return false; 
         }
 
+        if (!pointDistributionSplit.every(value => !isNaN(value))) {
+            alert("Hint: point distribution values must be numbers");
+            return false;
+        }
         
         submitNewMatch(competitionNameValue, competitorsValue, pointDistributionValue, user)
         return true;

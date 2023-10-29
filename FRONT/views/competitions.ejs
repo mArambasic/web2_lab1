@@ -46,6 +46,11 @@
           const competitions = response.data;
           console.log('Competitions:', competitions);
 
+          if (!Array.isArray(competitions)) {
+            window.location.href = '/';
+            return;
+          }
+
           var competitionsTable = document.getElementById('competitionsTable');
 
           competitions.forEach(function(competition) {
