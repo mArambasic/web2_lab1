@@ -5,9 +5,6 @@
 <h1 class="text-4xl mb-4" id="competitionNameId"></h1>
 <div id="roundsTable"></div>
 <div id="scoringTable"></div>
-<% if (userId === competitionUserId) { %>
-  <button id="saveChangesButton" onclick="saveChanges()">Save Changes</button>
-<% } %>
 
 <%- include('partials/footer') -%>
 
@@ -50,14 +47,24 @@
             return;
           }
 
+
           const competitionUserId = competition.userId
           const competitionName = competition.name;
           const rounds = competition.rounds;
           const scoring = competition.scoring;
           const competitors = competition.competitors;
 
-          console.log('Competition Name:', userId);
-          console.log('Competition Name:', competitionUserId);
+
+          console.log('UserID:', userId);
+          console.log('CompetitionUserid:', competitionUserId);
+
+          if(userId === competitionUserId) {
+            const saveChangesButton = document.createElement("button");
+            saveChangesButton.id = "saveChangesButton";
+            saveChangesButton.textContent = "Save Changes";
+            saveChangesButton.onclick = saveChanges;
+            document.body.appendChild(saveChangesButton);
+          }
 
           console.log('Competition Name:', competitionName);
           const competitionNameId = document.getElementById("competitionNameId");
