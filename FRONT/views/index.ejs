@@ -17,12 +17,23 @@
         var pointDistributionValue = pointDistribution.value;
         var user = <%- JSON.stringify(locals.user) %>;
 
-       if(competitionNameValue === null || competitorsValue === null || pointDistributionValue === null)  {
+       if(competitionNameValue === null || competitorsValue === null || pointDistributionValue === null
+            || competitionNameValue === "" ||competitorsValue === "" || pointDistributionValue === "")  {
             alert("Please input all data");
             return false; 
         }
 
-        //TODO add check if , and /
+        var competitorsSplit = competitorsValue.split(",");
+        if(competitorsSplit.length < 4 || competitorsSplit.length > 8) {
+            alert("Hint: insert 4-8 separated by a comma");
+            return false; 
+        }
+
+        var pointDistributionSplit = pointDistributionValue.split("/");
+        if(pointDistributionValue.length != 3) {
+            alert("Hint: scoring format win/loss/draw");
+            return false; 
+        }
 
         
         submitNewMatch(competitionNameValue, competitorsValue, pointDistributionValue, user)
@@ -72,11 +83,11 @@
                     <td><input type="text" id = "competitionName" name="competitionName" maxlength="50"></td>
                 </tr>
                 <tr>
-                    <td>Competitors:</td>
+                    <td>Competitors (a,b,c,...):</td>
                     <td><input type="text" id = "competitors" name="competitors"></td>
                 </tr>
                 <tr>
-                    <td>Point distribution:</td>
+                    <td>Point distribution (win/loss/draw):</td>
                     <td><input type="text" id = "pointDistribution" name="pointDistribution" ></td>
                     </tr>
                 <tr>
