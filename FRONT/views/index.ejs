@@ -1,6 +1,14 @@
 <%- include('partials/header') -%>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+<style>
+    input[type="text"] {
+      border: 1px solid #000000; 
+      padding: 5px; 
+
+    }
+  </style>
+
 <script>
     function validateForm() {
         var competitionName = document.getElementById("competitionName");
@@ -25,13 +33,13 @@
 
         var competitorsSplit = competitorsValue.split(",");
         if(competitorsSplit.length < 4 || competitorsSplit.length > 8) {
-            alert("Hint: insert 4-8 separated by a comma");
+            alert("Hint: insert 4-8 competitors separated by a comma");
             return false; 
         }
 
         var pointDistributionSplit = pointDistributionValue.split("/");
-        if(pointDistributionValue.length != 3) {
-            alert("Hint: scoring format win/loss/draw");
+        if(pointDistributionSplit.length != 3) {
+            alert("Hint: point distrubution format is win/loss/draw");
             return false; 
         }
 
