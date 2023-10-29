@@ -166,5 +166,27 @@
 
   function saveChanges() {
     console.log("saving changes");
+    const matchData = [];
+
+    const resultSelectElements = document.querySelectorAll('select[name^="result_"]');
+  
+    resultSelectElements.forEach((select) => {
+      const matchId = select.name.replace('result_', '');
+      const result = select.value;
+
+      matchData.push({ matchId, result });
+    });
+
+    axios.post('https://web2-lab1-back.onrender.com/api/saveMatchChanges', {
+       matches: matchData 
+    })
+    .then((response) => {
+      console.log('Matches saved:', response.data);
+    })
+    .catch((error) => {
+      console.error('Error saving matches:', error);
+    });
+
+    fetchCompetition();
   }
 </script>
