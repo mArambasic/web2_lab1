@@ -18,6 +18,10 @@ public class Match {
     @Column(name = "scoringEnum", nullable = false)
     private ScoringEnum scoringEnum;
 
+    public Round getRound() {
+        return round;
+    }
+
     @ManyToOne
     @JoinColumn(name="round_id", nullable=false)
     @JsonBackReference

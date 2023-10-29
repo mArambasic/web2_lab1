@@ -17,9 +17,6 @@ public class MatchService {
     private MatchRepository repository;
 
     @Autowired
-    private RoundRepository roundRepository;
-
-    @Autowired
     private CompetitorRepository competitorRepository;
 
     public void saveMatchChanges(List<SaveMatchRequest> saveMatchRequest) {
@@ -38,7 +35,7 @@ public class MatchService {
             if(matchPrevious == null) return;
 
             if(i == 0){
-                round = roundRepository.findById(matchPrevious.getMatchId()).orElse(null);
+                round = matchPrevious.getRound();
 
                 if (round != null) {
                     competition = round.getCompetition();
@@ -52,14 +49,14 @@ public class MatchService {
             i++;
         }
 
-        updateScores(saveMatchRequest, competition.getCompetitors(), competition.getScoring());
+        if(competition != null) updateScores(saveMatchRequest, competition.getCompetitors(), competition.getScoring());
     }
 
     private void updateScores(List<SaveMatchRequest> saveMatchRequest, List<Competitor> competitors, List<Scoring> scoring) {
         int firstIndex, secondIndex;
 
         for(Competitor competitor: competitors)  {
-            competitor.setScore(1);
+            competitor.setScore(0);
             competitorRepository.save(competitor);
         }
 
