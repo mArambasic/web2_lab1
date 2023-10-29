@@ -29,7 +29,7 @@ public class MatchService {
             if(!result.contentEquals(matchPrevious.getScoringEnum().name())) {
                 matchPrevious.setScoringEnum(ScoringEnum.valueOf(result));
             }
-
+            repository.save(matchPrevious);
         }
     }
 }
