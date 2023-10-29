@@ -24,14 +24,19 @@
 
 <script>
   const ScoringEnum = {
-    WIN: "WIN",
-    LOSS: "LOSS",
-    DRAW: "DRAW",
     NOT_FINISHED: "NOT_FINISHED",
+    WIN: "PLAYER 1 WIN",
+    LOSS: "PLAYER 2 WIN",
+    DRAW: "DRAW",
   };
 
   document.addEventListener("DOMContentLoaded", function () {
     const link = "<%= link %>";
+
+    var user = <%- JSON.stringify(locals.user) %>;
+    let userId = null;
+
+    if (!user) userId = user.sub;
 
     function fetchCompetition() {
       axios.get(`https://web2-lab1-back.onrender.com/api/getCompetitionByLink/${link}`)
@@ -76,17 +81,28 @@
 
               const resultCell = roundRow.insertCell();
 
-              const scoringSelect = document.createElement("select");
-              scoringSelect.name = `result_${match.matchId}`;
+              if (userId === competition.userId) {
+                const scoringSelect = document.createElement("select");
+                scoringSelect.name = `result_${match.matchId}`;
 
-              for (const scoringType of Object.values(ScoringEnum)) {
-                const option = document.createElement("option");
-                option.value = scoringType;
-                option.text = scoringType;
-                scoringSelect.appendChild(option);
-              }
+                for (const scoringType of Object.values(ScoringEnum)) {
+                  const option = document.createElement("option");
+                  option.value = scoringType;
+                  option.text = scoringType;
+                  
+                  if (scoringType === match.scoringEnum) {
+                    option.selected = true;
+                  }
 
-              resultCell.appendChild(scoringSelect);
+                  scoringSelect.appendChild(option);
+                }
+
+                resultCell.appendChild(scoringSelect);
+            } else {
+              const notCreatorText = document.createElement("p");
+              notCreatorText.textContent = match.scoringEnum;
+              resultCell.appendChild(notCreatorText);
+            }
             });
           });
 
