@@ -33,7 +33,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     const link = "<%= link %>";
 
-    var user = <%- JSON.stringify(locals.user) %>;
+    var user = <%- locals.user ? JSON.stringify(locals.user) : "null" %>;
     let userId = user ? user.sub : null;
 
     function fetchCompetition() {
