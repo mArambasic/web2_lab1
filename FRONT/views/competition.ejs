@@ -174,8 +174,11 @@
       const matchId = select.name.replace('result_', '');
       const result = select.value;
 
+      console.log('RESULT:', result);
+
       matchData.push({ matchId, result });
     });
+
 
     axios.post('https://web2-lab1-back.onrender.com/api/saveMatchChanges', {
        matches: matchData 
