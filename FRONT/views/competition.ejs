@@ -58,14 +58,6 @@
           console.log('UserID:', userId);
           console.log('CompetitionUserid:', competitionUserId);
 
-          if(userId === competitionUserId) {
-            const saveChangesButton = document.createElement("button");
-            saveChangesButton.id = "saveChangesButton";
-            saveChangesButton.textContent = "Save Changes";
-            saveChangesButton.onclick = saveChanges;
-            document.body.appendChild(saveChangesButton);
-          }
-
           console.log('Competition Name:', competitionName);
           const competitionNameId = document.getElementById("competitionNameId");
           competitionNameId.textContent = competitionName;
@@ -120,6 +112,14 @@
           });
 
           roundsTable.appendChild(table);
+          
+          if(userId === competitionUserId) {
+            const saveChangesButton = document.createElement("button");
+            saveChangesButton.id = "saveChangesButton";
+            saveChangesButton.textContent = "Save Changes";
+            saveChangesButton.onclick = saveChanges;
+            roundsTable.appendChild(saveChangesButton);
+          }
 
           const scoringTable = document.getElementById("scoringTable");
           const table2 = document.createElement("table");
