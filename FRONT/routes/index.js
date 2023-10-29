@@ -17,9 +17,9 @@ router.get('/competitions', requiresAuth(), function (req, res, next) {
 
 router.get('/competition/:link', function (req, res, next) {
   const link = req.params.link;
+  res.locals.userProfile = JSON.stringify(req.oidc.user, null, 2);
 
   res.render('competition', {
-    userProfile: JSON.stringify(req.oidc.user, null, 2),
     title: 'Competition',
     link: link
   });

@@ -33,6 +33,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     const link = "<%= link %>";
 
+    var userProfile = <%= userProfile %>;
     let userId = userProfile ? userProfile.sub : null;
 
     function fetchCompetition() {
