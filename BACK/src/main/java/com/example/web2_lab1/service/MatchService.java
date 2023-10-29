@@ -42,12 +42,6 @@ public class MatchService {
 
                 if (round != null) {
                     competition = round.getCompetition();
-
-                    //testing
-                    for(Competitor competitor: competition.getCompetitors())  {
-                        competitor.setScore(1);
-                        competitorRepository.save(competitor);
-                    }
                 }
             }
 
@@ -64,14 +58,8 @@ public class MatchService {
     private void updateScores(List<SaveMatchRequest> saveMatchRequest, List<Competitor> competitors, List<Scoring> scoring) {
         int firstIndex, secondIndex;
 
-        //testing
         for(Competitor competitor: competitors)  {
-            competitor.setScore(2);
-            competitorRepository.save(competitor);
-        }
-
-        for(Competitor competitor: competitors)  {
-            competitor.setScore(0);
+            competitor.setScore(1);
             competitorRepository.save(competitor);
         }
 
