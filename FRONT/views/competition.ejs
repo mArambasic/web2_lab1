@@ -172,9 +172,13 @@
   
     resultSelectElements.forEach((select) => {
       const matchId = select.name.replace('result_', '');
-      const result = select.value;
+      let result = select.value;
+
+      if(result === "PLAYER 1 WIN") result = "WIN";
+      else if(result === "PLAYER 2 WIN") result = "LOSS";
 
       console.log('RESULT:', result);
+      console.log('MATCH ID:', matchId);
 
       matchData.push({ matchId, result });
     });
@@ -189,7 +193,5 @@
     .catch((error) => {
       console.error('Error saving matches:', error);
     });
-
-    fetchCompetition();
   }
 </script>
