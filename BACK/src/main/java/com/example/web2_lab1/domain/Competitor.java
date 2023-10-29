@@ -14,6 +14,10 @@ public class Competitor {
     @Column(name = "name", nullable = false)
     private String name;
 
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
     @Column(name = "score", nullable = false)
     private Integer score;
 

@@ -21,6 +21,10 @@ public class Round {
     @JsonManagedReference
     private List<Match> matches;
 
+    public Competition getCompetition() {
+        return competition;
+    }
+
     @ManyToOne
     @JoinColumn(name="competition_id", nullable=false)
     @JsonBackReference

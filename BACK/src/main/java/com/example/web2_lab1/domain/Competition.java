@@ -25,6 +25,10 @@ public class Competition {
     @JsonManagedReference
     private List<Round> rounds;
 
+    public List<Scoring> getScoring() {
+        return scoring;
+    }
+
     @OneToMany(mappedBy = "competition", cascade=CascadeType.ALL)
     @JsonManagedReference
     private List<Scoring> scoring;
@@ -32,6 +36,10 @@ public class Competition {
     @Column(name="user_id", nullable=false)
     private String userId;
 
+
+    public List<Competitor> getCompetitors() {
+        return competitors;
+    }
 
     @OneToMany(mappedBy = "competition", cascade=CascadeType.ALL)
     @JsonManagedReference
