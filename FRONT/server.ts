@@ -8,6 +8,7 @@ const path = require('path');
 const router = require('./routes/index');
 const { auth } = require('express-openid-connect');
 const { createProxyMiddleware } = require("http-proxy-middleware");
+const axios = require('axios');
 
 dotenv.load();
 
@@ -21,13 +22,14 @@ app.use(express.json());
 
 const externalUrl = process.env.RENDER_EXTERNAL_URL;
 const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4092;
-const apiBaseURL = 'https://web2-lab1-back.onrender.com'
+const apiBaseURL = 'https://localhost/8081'
+const baseURL = externalUrl || `https://localhost:${port}`
 
 const config = {
   authRequired: false,
   auth0Logout: true,
   secret: process.env.CLIENT_SECRET,
-  baseURL: externalUrl || `https://localhost:${port}`,
+  baseURL: baseURL,
   clientID: process.env.CLIENT_ID,
   issuerBaseURL: 'https://dev-y7q23kiz1uhksjri.eu.auth0.com',
 };
@@ -37,19 +39,12 @@ app.use(auth(config));
 // Middleware to make the `user` object available for all views
 app.use(function (req, res, next) {
   res.locals.user = req.oidc.user;
-  res.locals.apiBaseURL = apiBaseURL
+  res.locals.apiBaseURL = apiBaseURL;
+  res.locals.baseURL = baseURL;
   next();
 });
 
 app.use('/', router);
-
-app.use(
-  "/api",
-  createProxyMiddleware({
-      target: apiBaseURL,
-      changeOrigin: true,
-  })
-);
 
 
 if (externalUrl) {
@@ -62,11 +57,11 @@ if (externalUrl) {
   )
 } else {
   https.createServer({
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.cert')
-  }, app)
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+    }, app)
   .listen(port, function () {
-  console.log(`Server running at https://localhost:${port}/`);
+    console.log(`Server running at https://localhost:${port}/`);
   });
 };
 
@@ -81,14 +76,3 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.redirect('/');
 });
-
-app.post('/newCompetition', (req, res) => {
-  var competition = {
-    name : req.body.competitionName,
-    competitors : req.body.competitors,
-    pointDistribution: req.body.pointDistribution
-  }
-});
-
-  // vJ*6415nQyUf test user password
-  // testuser@test.com

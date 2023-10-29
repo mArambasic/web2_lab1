@@ -8,6 +8,7 @@ var path = require('path');
 var router = require('./routes/index');
 var auth = require('express-openid-connect').auth;
 var createProxyMiddleware = require("http-proxy-middleware").createProxyMiddleware;
+var axios = require('axios');
 dotenv.load();
 var app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -16,12 +17,13 @@ app.use(logger('dev'));
 app.use(express.json());
 var externalUrl = process.env.RENDER_EXTERNAL_URL;
 var port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4092;
-var apiBaseURL = 'https://web2-lab1-back.onrender.com';
+var apiBaseURL = 'https://localhost/8081';
+var baseURL = externalUrl || "https://localhost:".concat(port);
 var config = {
     authRequired: false,
     auth0Logout: true,
     secret: process.env.CLIENT_SECRET,
-    baseURL: externalUrl || "https://localhost:".concat(port),
+    baseURL: baseURL,
     clientID: process.env.CLIENT_ID,
     issuerBaseURL: 'https://dev-y7q23kiz1uhksjri.eu.auth0.com',
 };
@@ -30,13 +32,10 @@ app.use(auth(config));
 app.use(function (req, res, next) {
     res.locals.user = req.oidc.user;
     res.locals.apiBaseURL = apiBaseURL;
+    res.locals.baseURL = baseURL;
     next();
 });
 app.use('/', router);
-app.use("/api", createProxyMiddleware({
-    target: apiBaseURL,
-    changeOrigin: true,
-}));
 if (externalUrl) {
     var hostname_1 = process.env.HOST; //ne 127.0.0.1
     console.log(hostname_1 + " " + port + " " + externalUrl);
@@ -64,12 +63,3 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.redirect('/');
 });
-app.post('/newCompetition', function (req, res) {
-    var competition = {
-        name: req.body.competitionName,
-        competitors: req.body.competitors,
-        pointDistribution: req.body.pointDistribution
-    };
-});
-// vJ*6415nQyUf test user password
-// testuser@test.com

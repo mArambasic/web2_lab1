@@ -1,0 +1,103 @@
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<%- include('partials/header') -%>
+
+  <h1 class="text-4xl mb-4" id="competitionNameId"></h1>
+  <div id="roundsTable"></div>
+  <div id="scoringTable"></div>
+
+<%- include('partials/footer') -%>
+
+<style>
+  table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const link = "<%= link %>";
+
+    function fetchCompetition() {
+      axios.get(`https://web2-lab1-back.onrender.com/api/getCompetitionByLink/${link}`)
+        .then((response) => {
+          const competition = response.data;
+
+          const competitionName = competition.name;
+          const rounds = competition.rounds;
+          const scoring = competition.scoring;
+          const competitors = competition.competitors;
+
+          console.log('Competition Name:', competitionName);
+          const competitionNameId = document.getElementById("competitionNameId");
+          competitionNameId.textContent = competitionName;
+
+          const roundsTable = document.getElementById("roundsTable");
+          const table = document.createElement("table");
+          table.className = "border-collapse border border-blue-800 m-4";
+
+          const headerRow = table.insertRow();
+          const roundHeaderCell = headerRow.insertCell();
+          roundHeaderCell.textContent = "Round";
+          const matchHeaderCell = headerRow.insertCell();
+          matchHeaderCell.textContent = "Matches";
+          const resultHeaderCell = headerRow.insertCell();
+          resultHeaderCell.textContent = "Result";
+
+          rounds.forEach((round, index) => {
+            round.matches.forEach((match) => {
+              const roundRow = table.insertRow();
+              const roundCell = roundRow.insertCell();
+
+              roundCell.textContent = `${index + 1}`;
+
+              const matchCell = roundRow.insertCell();
+              matchCell.textContent = match.player1 + " vs " + match.player2;
+
+              const resultCell = roundRow.insertCell();
+              resultCell.textContent = "-";
+            });
+          });
+
+          roundsTable.appendChild(table);
+
+          const scoringTable = document.getElementById("scoringTable");
+          const table2 = document.createElement("table");
+          table2.className = "border-collapse border border-blue-800 m-4";
+
+          const headerCompetitors = table2.insertRow();
+          const competitorsHeaderCell = headerCompetitors.insertCell();
+          competitorsHeaderCell.textContent = "Competitors";
+          const scoreHeaderCell = headerCompetitors.insertCell();
+          scoreHeaderCell.textContent = "Scores";
+
+          competitors.forEach((competitor) => {
+            const row = table2.insertRow();
+            const competitorCell = row.insertCell();
+            competitorCell.textContent = competitor.name;
+
+            const scoreCell = row.insertCell();
+            scoreCell.textContent = competitor.score;
+          });
+
+          scoringTable.appendChild(table2);
+
+          console.log('Rounds:', rounds);
+          console.log('Scores:', scoring);
+        })
+        .catch((error) => {
+          console.error('Error fetching competitions:', error);
+        });
+    }
+
+    fetchCompetition();
+  });
+</script>

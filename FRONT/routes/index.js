@@ -22,4 +22,13 @@ router.get('/competitions', requiresAuth(), function (req, res, next) {
   });
 });
 
+router.get('/competition/:link', function (req, res, next) {
+  const link = req.params.link;
+
+  res.render('competition', {
+    title: 'Competition',
+    link: link
+  });
+});
+
 module.exports = router;

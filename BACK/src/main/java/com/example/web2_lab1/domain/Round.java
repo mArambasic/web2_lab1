@@ -2,6 +2,7 @@ package com.example.web2_lab1.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -24,4 +25,24 @@ public class Round {
     @JoinColumn(name="competition_id", nullable=false)
     @JsonBackReference
     private Competition competition;
+
+    public Round() {
+
+    }
+
+    public Round(Integer roundNumber, List<Match> matches, Competition competition) {
+        this.roundNumber = roundNumber;
+        this.matches = matches;
+        this.competition = competition;
+    }
+
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
+    }
+
+    @JsonProperty("roundNumber")
+    public Integer getRoundNumber() {
+        return roundNumber;
+    }
+
 }
