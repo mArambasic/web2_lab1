@@ -20,6 +20,12 @@
     text-align: center;
     border-bottom: 1px solid #ddd;
   }
+
+  button {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+  }
 </style>
 
 <script>
@@ -31,10 +37,11 @@
   };
 
   document.addEventListener("DOMContentLoaded", function () {
+
     const link = "<%= link %>";
 
-    var userProfile = <%- userProfile | safe %>;
-    let userId = userProfile ? userProfile.sub : null;
+    var user = <%- locals.user ? JSON.stringify(locals.user) : "null" %>;
+    let userId = user ? user.sub : null;
 
     function fetchCompetition() {
       axios.get(`https://web2-lab1-back.onrender.com/api/getCompetitionByLink/${link}`)
@@ -46,14 +53,16 @@
             return;
           }
 
+
           const competitionUserId = competition.userId
           const competitionName = competition.name;
           const rounds = competition.rounds;
           const scoring = competition.scoring;
           const competitors = competition.competitors;
 
-          console.log('Competition Name:', userId);
-          console.log('Competition Name:', competitionUserId);
+
+          console.log('UserID:', userId);
+          console.log('CompetitionUserid:', competitionUserId);
 
           console.log('Competition Name:', competitionName);
           const competitionNameId = document.getElementById("competitionNameId");
@@ -110,6 +119,19 @@
 
           roundsTable.appendChild(table);
 
+          if(userId === competitionUserId) {
+            const saveChangesDiv = document.createElement("div");
+            saveChangesDiv.className = "text-center";
+
+            const saveChangesButton = document.createElement("button");
+            saveChangesButton.id = "saveChangesButton";
+            saveChangesButton.textContent = "Save Changes";
+            saveChangesButton.onclick = saveChanges;
+
+            saveChangesDiv.appendChild(saveChangesButton);
+            roundsTable.appendChild(saveChangesDiv);
+          }
+
           const scoringTable = document.getElementById("scoringTable");
           const table2 = document.createElement("table");
           table2.className = "border-collapse border border-blue-800 m-4";
@@ -141,4 +163,35 @@
 
     fetchCompetition();
   });
+
+  function saveChanges() {
+    console.log("saving changes");
+    const matchData = [];
+
+    const resultSelectElements = document.querySelectorAll('select[name^="result_"]');
+  
+    resultSelectElements.forEach((select) => {
+      const matchId = select.name.replace('result_', '');
+      let result = select.value;
+
+      if(result === "PLAYER 1 WIN") result = "WIN";
+      else if(result === "PLAYER 2 WIN") result = "LOSS";
+
+      console.log('RESULT:', result);
+      console.log('MATCH ID:', matchId);
+
+      matchData.push({ matchId, result });
+    });
+
+
+    axios.post('https://web2-lab1-back.onrender.com/api/saveMatchChanges', {
+       matches: matchData 
+    })
+    .then((response) => {
+      console.log('Matches saved:', response.data);
+    })
+    .catch((error) => {
+      console.error('Error saving matches:', error);
+    });
+  }
 </script>

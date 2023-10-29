@@ -53,4 +53,13 @@ public class Match {
     public ScoringEnum getScoringEnum() {
         return scoringEnum;
     }
+
+    @JsonProperty("matchId")
+    public Long getMatchId() {
+        return matchId;
+    }
+
+    public void setScoringEnum(ScoringEnum scoringEnum) {
+        this.scoringEnum = scoringEnum;
+    }
 }
