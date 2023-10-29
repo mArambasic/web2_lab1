@@ -8,6 +8,7 @@ import com.example.web2_lab1.domain.request.SaveMatchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -61,8 +62,11 @@ public class MatchService {
         }
 
         for (int i = 0; i < saveMatchRequest.size(); i++) {
-            firstIndex = getFirstIndex(saveMatchRequest.size(), i);
-            secondIndex = getSecondIndex(saveMatchRequest.size(), i);
+//            firstIndex = getFirstIndex(saveMatchRequest.size(), i);
+//            secondIndex = getSecondIndex(saveMatchRequest.size(), i);
+
+            firstIndex = 0;
+            secondIndex = 1;
 
             String matchId = saveMatchRequest.get(i).getMatchId();
 
@@ -70,24 +74,23 @@ public class MatchService {
             if(matchPrevious == null) return;
 
             ScoringEnum scoringEnum = matchPrevious.getScoringEnum();
-            Integer scoringPoints = 0;
-
-            for(Scoring s: scoring) {
-                if(s.getScoringEnum() == scoringEnum) {
-                    scoringPoints = s.getPoints();
-                }
-            }
 
             Competitor first = competitors.get(firstIndex);
             Competitor second = competitors.get(secondIndex);
 
             Integer firstScore = first.getScore(), secondScore = second.getScore();
             switch(scoringEnum){
-                case LOSS -> second.setScore(secondScore + scoringPoints);
-                case WIN -> first.setScore(firstScore + scoringPoints);
+                case LOSS -> {
+                    first.setScore(firstScore + scoring.get(1).getPoints());
+                    second.setScore(secondScore + scoring.get(0).getPoints());
+                }
+                case WIN -> {
+                    first.setScore(firstScore + scoring.get(0).getPoints());
+                    second.setScore(secondScore + scoring.get(1).getPoints());
+                }
                 case DRAW -> {
-                    first.setScore(firstScore + scoringPoints);
-                    second.setScore(secondScore + scoringPoints);
+                    first.setScore(firstScore + scoring.get(2).getPoints());
+                    second.setScore(secondScore + scoring.get(2).getPoints());
                 }
             }
 
