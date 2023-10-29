@@ -34,7 +34,7 @@
     const link = "<%= link %>";
 
     let user = null;
-    if (locals.user) {user = <%- JSON.stringify(locals.user) %>;
+    if (locals.user) user = <%- JSON.stringify(locals.user) %>;
     let userId = user ? user.sub : null;
 
     function fetchCompetition() {
