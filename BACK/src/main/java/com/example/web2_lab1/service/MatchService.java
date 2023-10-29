@@ -62,11 +62,8 @@ public class MatchService {
         }
 
         for (int i = 0; i < saveMatchRequest.size(); i++) {
-//            firstIndex = getFirstIndex(saveMatchRequest.size(), i);
-//            secondIndex = getSecondIndex(saveMatchRequest.size(), i);
-
-            firstIndex = 0;
-            secondIndex = 1;
+            firstIndex = getFirstIndex(competitors.size(), i);
+            secondIndex = getSecondIndex(competitors.size(), i);
 
             String matchId = saveMatchRequest.get(i).getMatchId();
 
