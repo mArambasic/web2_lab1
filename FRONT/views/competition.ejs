@@ -1,10 +1,8 @@
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <%- include('partials/header') -%>
 
-  <h1 class="text-4xl mb-4" id="competitionNameId"></h1>
-  <div id="roundsTable"></div>
-  <div id="scoringTable"></div>
+<h1 class="text-4xl mb-4" id="competitionNameId"></h1>
+<div id="roundsTable"></div>
+<div id="scoringTable"></div>
 
 <%- include('partials/footer') -%>
 
@@ -23,6 +21,13 @@
 </style>
 
 <script>
+  const ScoringEnum = {
+    WIN: "WIN",
+    LOSS: "LOSS",
+    DRAW: "DRAW",
+    NOT_FINISHED: "NOT_FINISHED",
+  };
+
   document.addEventListener("DOMContentLoaded", function () {
     const link = "<%= link %>";
 
@@ -31,7 +36,7 @@
         .then((response) => {
           const competition = response.data;
 
-          if (competition.length === 0) {
+          if (!competition || competition.length === 0) {
             window.location.href = "/";
             return;
           }
@@ -68,7 +73,18 @@
               matchCell.textContent = match.player1 + " vs " + match.player2;
 
               const resultCell = roundRow.insertCell();
-              resultCell.textContent = "-";
+
+              const scoringSelect = document.createElement("select");
+              scoringSelect.name = `result_${match.matchId}`;
+
+              for (const scoringType of Object.values(ScoringEnum)) {
+                const option = document.createElement("option");
+                option.value = scoringType;
+                option.text = scoringType;
+                scoringSelect.appendChild(option);
+              }
+
+              resultCell.appendChild(scoringSelect);
             });
           });
 
