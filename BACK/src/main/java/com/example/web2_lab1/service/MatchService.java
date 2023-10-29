@@ -24,7 +24,7 @@ public class MatchService {
 
     public void saveMatchChanges(List<SaveMatchRequest> saveMatchRequest) {
         int i = 0;
-        Round round = null;
+        Round round;
         Competition competition = null;
 
         for (SaveMatchRequest match : saveMatchRequest) {
@@ -33,17 +33,23 @@ public class MatchService {
 
             Match matchPrevious = repository.findById(Long.parseLong(matchId)).orElse(null);
 
+            System.out.println(matchId + "," + result + "," + matchPrevious);
+
+            if(matchPrevious == null) return;
+
             if(i == 0){
                 round = roundRepository.findById(matchPrevious.getMatchId()).orElse(null);
 
                 if (round != null) {
                     competition = round.getCompetition();
+
+                    //testing
+                    for(Competitor competitor: competition.getCompetitors())  {
+                        competitor.setScore(1);
+                        competitorRepository.save(competitor);
+                    }
                 }
             }
-
-            System.out.println(matchId + "," + result + "," + matchPrevious);
-
-            if(matchPrevious == null) return;
 
             if(!result.equals(matchPrevious.getScoringEnum().name())) {
                 matchPrevious.setScoringEnum(ScoringEnum.valueOf(result));
@@ -56,7 +62,13 @@ public class MatchService {
     }
 
     private void updateScores(List<SaveMatchRequest> saveMatchRequest, List<Competitor> competitors, List<Scoring> scoring) {
-        int firstIndex = 0, secondIndex = 0;
+        int firstIndex, secondIndex;
+
+        //testing
+        for(Competitor competitor: competitors)  {
+            competitor.setScore(2);
+            competitorRepository.save(competitor);
+        }
 
         for(Competitor competitor: competitors)  {
             competitor.setScore(0);
@@ -70,6 +82,8 @@ public class MatchService {
             String matchId = saveMatchRequest.get(i).getMatchId();
 
             Match matchPrevious = repository.findById(Long.parseLong(matchId)).orElse(null);
+            if(matchPrevious == null) return;
+
             ScoringEnum scoringEnum = matchPrevious.getScoringEnum();
             Integer scoringPoints = 0;
 
