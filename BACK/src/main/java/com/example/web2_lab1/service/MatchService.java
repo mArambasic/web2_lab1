@@ -26,7 +26,7 @@ public class MatchService {
 
             if(matchPrevious == null) return;
 
-            if(result.contentEquals(matchPrevious.getScoringEnum().name())) {
+            if(!result.contentEquals(matchPrevious.getScoringEnum().name())) {
                 matchPrevious.setScoringEnum(ScoringEnum.valueOf(result));
             }
 
