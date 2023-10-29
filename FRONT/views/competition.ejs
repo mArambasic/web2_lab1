@@ -34,9 +34,7 @@
     const link = "<%= link %>";
 
     var user = <%- JSON.stringify(locals.user) %>;
-    let userId = null;
-
-    if (!user) userId = user.sub;
+    let userId = user ? user.sub : null;
 
     function fetchCompetition() {
       axios.get(`https://web2-lab1-back.onrender.com/api/getCompetitionByLink/${link}`)
@@ -48,12 +46,14 @@
             return;
           }
 
-          console.log(userId, competition.userId);
-
+          const competitionUserId = competition.userId
           const competitionName = competition.name;
           const rounds = competition.rounds;
           const scoring = competition.scoring;
           const competitors = competition.competitors;
+
+          console.log('Competition Name:', userId);
+          console.log('Competition Name:', competitionUserId);
 
           console.log('Competition Name:', competitionName);
           const competitionNameId = document.getElementById("competitionNameId");

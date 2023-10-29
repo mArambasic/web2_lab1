@@ -74,4 +74,9 @@ public class Competition {
     public String getLink() {
         return link;
     }
+
+    @JsonProperty("userId")
+    public String getUserId() {
+        return userId;
+    }
 }
