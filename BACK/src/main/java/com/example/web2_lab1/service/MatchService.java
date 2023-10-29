@@ -26,10 +26,10 @@ public class MatchService {
 
             if(matchPrevious == null) return;
 
-            if(!result.contentEquals(matchPrevious.getScoringEnum().name())) {
+            if(!result.equals(matchPrevious.getScoringEnum().name())) {
                 matchPrevious.setScoringEnum(ScoringEnum.valueOf(result));
+                repository.save(matchPrevious);
             }
-            repository.save(matchPrevious);
         }
     }
 }
